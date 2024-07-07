@@ -1,4 +1,6 @@
+using AutoMapper;
 using EcommProject.Context;
+using EcommProject.Services;
 using Microsoft.EntityFrameworkCore;
 using System;
 
@@ -14,6 +16,15 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+var mappingConfig = new MapperConfiguration(mc =>
+{
+    mc.AddProfile(new MappingProfile());
+});
+IMapper mapper = mappingConfig.CreateMapper();
+builder.Services.AddSingleton(mapper);
+
+builder.Services.AddScoped<IPedidoService, PedidoService>();
 
 var app = builder.Build();
 

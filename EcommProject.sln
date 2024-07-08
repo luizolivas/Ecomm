@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35004.147
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EcommProject", "EcommProject\EcommProject.csproj", "{3219D6AE-D722-4F0E-9321-936F13ACC233}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EcommProject", "EcommProject\EcommProject.csproj", "{3219D6AE-D722-4F0E-9321-936F13ACC233}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EcommConsumer", "EcommConsumer\EcommConsumer.csproj", "{18AE09A3-B4EF-49AD-940E-E9837118CBF2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EcommLibrary", "EcommLibrary\EcommLibrary.csproj", "{65D0637B-D9D6-4431-A18A-FC1CC7D03656}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{3219D6AE-D722-4F0E-9321-936F13ACC233}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3219D6AE-D722-4F0E-9321-936F13ACC233}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3219D6AE-D722-4F0E-9321-936F13ACC233}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18AE09A3-B4EF-49AD-940E-E9837118CBF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18AE09A3-B4EF-49AD-940E-E9837118CBF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18AE09A3-B4EF-49AD-940E-E9837118CBF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18AE09A3-B4EF-49AD-940E-E9837118CBF2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65D0637B-D9D6-4431-A18A-FC1CC7D03656}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65D0637B-D9D6-4431-A18A-FC1CC7D03656}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65D0637B-D9D6-4431-A18A-FC1CC7D03656}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65D0637B-D9D6-4431-A18A-FC1CC7D03656}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

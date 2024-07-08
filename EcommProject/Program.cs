@@ -2,14 +2,26 @@ using AutoMapper;
 using EcommProject.Context;
 using EcommProject.Services;
 using Microsoft.EntityFrameworkCore;
+using RabbitMQ.Client;
+using SharedSettings;
 using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
 
-builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer("Data Source=DESKTOP-9PLI1AJ; Initial Catalog=Ecomm;Integrated Security=False;Connect Timeout=15;Encrypt=False;TrustServerCertificate=False;Trusted_Connection=True"));
+var rabbitMqSettings = builder.Configuration.GetSection("RabbitMQ").Get<RabbitMqSettings>();
+builder.Services.AddSingleton(rabbitMqSettings);
 
-
+var factory = new ConnectionFactory()
+{
+    HostName = rabbitMqSettings.HostName,
+    UserName = rabbitMqSettings.UserName,
+    Password = rabbitMqSettings.Password
+};
+builder.Services.AddSingleton(factory);
+//builder.Services.AddSingleton<ConnectionFactory>();
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -25,6 +37,7 @@ IMapper mapper = mappingConfig.CreateMapper();
 builder.Services.AddSingleton(mapper);
 
 builder.Services.AddScoped<IPedidoService, PedidoService>();
+builder.Services.AddScoped<IRabbitService, RabbitService>();
 
 var app = builder.Build();
 

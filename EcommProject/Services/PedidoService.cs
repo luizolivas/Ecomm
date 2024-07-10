@@ -29,5 +29,13 @@ namespace EcommProject.Services
             var mensagem = JsonSerializer.Serialize(pedido);
             _rabbitService.EnviarMensagem(mensagem);
         }
+
+        public async Task ProcessaPedido(PedidoDto pedidoDto)
+        {
+            var pedido = _mapper.Map<Pedido>(pedidoDto);
+            pedido.Processado = true;
+            _context.Update(pedido);
+            await _context.SaveChangesAsync();
+        }
     }
 }

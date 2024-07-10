@@ -27,8 +27,8 @@ namespace EcommProject.Controllers
             catch (Exception ex)
             {
                 return BadRequest($"Falha ao adicionar Pedido: {ex.Message}");
-
             }
         }
+
     }
 }

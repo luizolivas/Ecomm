@@ -1,12 +1,27 @@
 using EcommConsumer;
+using EcommConsumer.Context;
+using EcommProject.Context;
+using Microsoft.EntityFrameworkCore;
+using RabbitMQ.Client;
+using SharedSettings;
 
 var builder = Host.CreateApplicationBuilder(args);
 builder.Services.AddHostedService<Worker>();
 
-builder.Services.AddHttpClient("ProductApi", c =>
+
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
+
+var rabbitMqSettings = builder.Configuration.GetSection("RabbitMQ").Get<RabbitMqSettings>();
+builder.Services.AddSingleton(rabbitMqSettings);
+
+var factory = new ConnectionFactory()
 {
-    c.BaseAddress = new Uri(builder.Configuration["ServiceUri:PedidoApi"]);
-});
+    HostName = rabbitMqSettings.HostName,
+    UserName = rabbitMqSettings.UserName,
+    Password = rabbitMqSettings.Password
+};
+builder.Services.AddSingleton(factory);
 
 builder.Services.AddHttpClient();
 

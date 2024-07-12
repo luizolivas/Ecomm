@@ -1,4 +1,7 @@
+using Azure;
+using EcommConsumer.Context;
 using EcommProject.Dtos;
+using EcommProject.Models;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Net;
@@ -13,17 +16,18 @@ namespace EcommConsumer
         private readonly IServiceProvider _serviceProvider;
         private readonly IConnection _connection;
         private readonly IModel _channel;
-        private readonly IHttpClientFactory _clientFactory;
 
-        public Worker(ILogger<Worker> logger, IServiceProvider serviceProvider, IHttpClientFactory clientFactory)
+
+        public Worker(ILogger<Worker> logger, IServiceProvider serviceProvider)
         {
             _logger = logger;
             _serviceProvider = serviceProvider;
-            _clientFactory = clientFactory;
+
 
             var factory = new ConnectionFactory() { HostName = "localhost" };
             _connection = factory.CreateConnection();
             _channel = _connection.CreateModel();
+            ConfigureRabbitMq();
         }
 
         private void ConfigureRabbitMq()
@@ -54,7 +58,7 @@ namespace EcommConsumer
             {
                 var body = ea.Body.ToArray();
                 var message = Encoding.UTF8.GetString(body);
-                //_logger.LogInformation($"Received message: {message}");
+                _logger.LogInformation($"Received message: {message}");
 
 
                 await ProcessMessageAsync(message);
@@ -69,23 +73,41 @@ namespace EcommConsumer
 
         private async Task ProcessMessageAsync(string message)
         {
-            var client = _clientFactory.CreateClient("ProductApi");
-            string url = client.BaseAddress.ToString();
-            StringContent content = new StringContent(message, System.Text.Encoding.UTF8, "application/json");
+            using var scope = _serviceProvider.CreateScope();
+            var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
+            using var transaction = await dbContext.Database.BeginTransactionAsync();
 
-            using (var response = await client.PostAsync(url, content))
+            try
             {
-                if (response.IsSuccessStatusCode)
+                //Simular uma falha para criar uma dead-letter
+                Random randNum = new Random();
+                if(randNum.Next(10) == 5)
                 {
-                    string ok = "OK";
+                    throw new Exception("Simulated processing failure");
+                }
+
+                var pedido = JsonSerializer.Deserialize<Pedido>(message);
+                var dbPedido = await dbContext.Pedidos.FindAsync(pedido.Id);
+
+                if(dbPedido != null)
+                {
+                    dbPedido.Processado = true;
+                    await dbContext.SaveChangesAsync();
+                    await transaction.CommitAsync();
+                    _logger.LogInformation($"Order {pedido.Id} marked as processed.");
                 }
                 else
                 {
-                    string ok = "NOT OK";
+                    _logger.LogWarning($"Order {pedido.Id} not found in the database.");
                 }
+
             }
-            
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error processing message: {ex.Message}");
+                await transaction.RollbackAsync();
+            }
         }
     }
 }

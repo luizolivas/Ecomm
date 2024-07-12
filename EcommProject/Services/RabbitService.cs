@@ -32,7 +32,7 @@ namespace EcommProject.Services
             };
 
             channel.QueueDeclare(queue: "pedidos",
-                     durable: false,
+                     durable: true,
                      exclusive: false,
                      autoDelete: false,
                      arguments: args);

@@ -1,6 +1,0 @@
-@EcommProcessor_HostAddress = http://localhost:5195
-
-GET {{EcommProcessor_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

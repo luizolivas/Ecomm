@@ -1,24 +1,25 @@
-using Azure;
-using EcommConsumer.Context;
-using EcommProject.Dtos;
+﻿using EcommConsumer.Context;
 using EcommProject.Models;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
-using System.Net;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace EcommConsumer
 {
-    public class Worker : BackgroundService
+    public class DeadLetterProcessor : BackgroundService
     {
-        private readonly ILogger<Worker> _logger;
+        private readonly ILogger<DeadLetterProcessor> _logger;
         private readonly IServiceProvider _serviceProvider;
         private readonly IConnection _connection;
         private readonly IModel _channel;
 
 
-        public Worker(ILogger<Worker> logger, IServiceProvider serviceProvider)
+        public DeadLetterProcessor(ILogger<DeadLetterProcessor> logger, IServiceProvider serviceProvider)
         {
             _logger = logger;
             _serviceProvider = serviceProvider;
@@ -27,28 +28,6 @@ namespace EcommConsumer
             var factory = new ConnectionFactory() { HostName = "localhost" };
             _connection = factory.CreateConnection();
             _channel = _connection.CreateModel();
-            ConfigureRabbitMq();
-        }
-
-        private void ConfigureRabbitMq()
-        {
-            _channel.QueueDeclare(queue: "dead_letter_queue",
-                                 durable: true,
-                                 exclusive: false,
-                                 autoDelete: false,
-                                 arguments: null);
-
-            var args = new Dictionary<string, object>
-            {
-                { "x-dead-letter-exchange", "" }, 
-                { "x-dead-letter-routing-key", "dead_letter_queue" }
-            };
-
-            _channel.QueueDeclare(queue: "pedidos",
-                                 durable: true,
-                                 exclusive: false,
-                                 autoDelete: false,
-                                 arguments: args);
         }
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
@@ -62,25 +41,25 @@ namespace EcommConsumer
 
                 try
                 {
-                    await ProcessMessageAsync(message);
+                    await ReprocessMessageAsync(message);
                     _channel.BasicAck(ea.DeliveryTag, false);
                 }
-                catch (Exception ex) 
+                catch (Exception ex)
                 {
                     _logger.LogError($"Error processing message: {ex.Message}");
-                    _channel.BasicNack(ea.DeliveryTag, false, false); 
+                    _channel.BasicNack(ea.DeliveryTag, false, false);
                 }
 
             };
 
-            _channel.BasicConsume(queue: "pedidos",
+            _channel.BasicConsume(queue: "dead_letter_queue",
                                  autoAck: false,
                                  consumer: consumer);
 
             return Task.CompletedTask;
         }
 
-        private async Task ProcessMessageAsync(string message)
+        private async Task ReprocessMessageAsync(string message)
         {
             using var scope = _serviceProvider.CreateScope();
             var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
@@ -93,7 +72,7 @@ namespace EcommConsumer
                 Random randNum = new Random();
                 //int testeFalha = 5;
 
-                if(randNum.Next(3) == 1)
+                if (randNum.Next(10) == 5)
                 {
                     throw new Exception("Simulated processing failure");
                 }
@@ -101,7 +80,7 @@ namespace EcommConsumer
                 var pedido = JsonSerializer.Deserialize<Pedido>(message);
                 var dbPedido = await dbContext.Pedidos.FindAsync(pedido.Id);
 
-                if(dbPedido != null)
+                if (dbPedido != null)
                 {
                     dbPedido.Processado = true;
                     await dbContext.SaveChangesAsync();

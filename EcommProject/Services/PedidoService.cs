@@ -2,6 +2,7 @@
 using EcommProject.Context;
 using EcommProject.Dtos;
 using EcommProject.Models;
+using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
 
 namespace EcommProject.Services
@@ -30,12 +31,11 @@ namespace EcommProject.Services
             _rabbitService.EnviarMensagem(mensagem);
         }
 
-        public async Task ProcessaPedido(PedidoDto pedidoDto)
+        public async Task<List<PedidoDto>> GetAllPedidos()
         {
-            var pedido = _mapper.Map<Pedido>(pedidoDto);
-            pedido.Processado = true;
-            _context.Update(pedido);
-            await _context.SaveChangesAsync();
+            List<Pedido> pedidos = await _context.Pedidos.ToListAsync();
+
+            return _mapper.Map<List<PedidoDto>>(pedidos);
         }
     }
 }

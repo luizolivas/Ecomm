@@ -30,5 +30,20 @@ namespace EcommProject.Controllers
             }
         }
 
+        [HttpGet]
+        public async Task<ActionResult> GetAllPedidos()
+        {
+            try
+            {
+                List<PedidoDto> pedidoDtos = await _pedidoService.GetAllPedidos();
+                return Ok(pedidoDtos);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest($"Falha ao buscar Pedidos: {ex.Message}");
+            }
+
+        }
     }
 }

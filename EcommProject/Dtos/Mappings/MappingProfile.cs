@@ -6,7 +6,7 @@ public class MappingProfile : Profile
 {
     public MappingProfile()
     {
-        CreateMap<PedidoDto, Pedido>();
+        CreateMap<PedidoDto, Pedido>().ReverseMap();
         CreateMap<Pedido, PedidoResponseDto>();
     }
 }

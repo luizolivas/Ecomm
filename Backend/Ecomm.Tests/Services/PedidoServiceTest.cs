@@ -31,7 +31,7 @@ namespace Ecomm.Tests.Services
 
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<PedidoDto, Pedido>();
+                cfg.CreateMap<PedidoDto, Pedido>().ReverseMap();
                 cfg.CreateMap<Pedido, PedidoResponseDto>();
             });
 
@@ -52,6 +52,40 @@ namespace Ecomm.Tests.Services
             var pedidoResult = await context.Pedidos.FirstOrDefaultAsync();
             Assert.NotNull(pedidoResult);
             Assert.Equal(2, 2);
+
+            context.Database.EnsureDeleted();
+        }
+
+        [Fact]
+        public async Task Get_GetAllPedidos()
+        {
+            List<PedidoDto> pedidoDtos = new List<PedidoDto>
+            {
+                new PedidoDto { ClienteId = 5, Preco=5 , ProdutoId = 5 , Quantidade= 5 },
+                new PedidoDto { ClienteId = 6, Preco=6 , ProdutoId = 6 , Quantidade= 6 }
+            };
+
+            await context.Pedidos.AddRangeAsync();
+
+            foreach(var pedido in pedidoDtos)
+            {
+                context.Pedidos.Add(mapper.Map<Pedido>(pedido));
+            }
+            await context.SaveChangesAsync();
+
+            var result = await pedidoService.GetAllPedidos();
+
+            Assert.Equal(2, result.Count);       
+            Assert.NotNull(result);
+            Assert.Equal(pedidoDtos.Count, result.Count);
+
+            for (int i = 0; i < pedidoDtos.Count; i++)
+            {
+                Assert.Equal(pedidoDtos[i].ClienteId , result[i].ClienteId);
+                Assert.Equal(pedidoDtos[i].Preco , result[i].Preco);
+                Assert.Equal(pedidoDtos[i].ProdutoId , result[i].ProdutoId);
+                Assert.Equal(pedidoDtos[i].Quantidade , result[i].Quantidade);
+            }
 
             context.Database.EnsureDeleted();
         }

@@ -1,0 +1,19 @@
+<div *ngIf="pedido">
+
+    <h2>Detalhes do Pedido</h2>
+
+    <ul>
+      <li *ngFor="let item of pedido">
+          <p>ProdutoID: {{ item.produtoId }}</p>
+          <p>Quantidade: {{ item.quantidade }}</p>
+          <p>Preco: {{ item.preco }}</p>
+          <p>ClienteID: {{ item.produtoId }}</p>
+          <p>Status: {{ item.processado }}</p>
+      </li>
+  </ul>
+
+  </div>
+  <div *ngIf="!pedido">
+    <p>Carregando detalhes do pedido...</p>
+  </div>
+  

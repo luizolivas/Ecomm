@@ -62,7 +62,8 @@
               "buildTarget": "Ecomm-Front:build:production"
             },
             "development": {
-              "buildTarget": "Ecomm-Front:build:development"
+              "buildTarget": "Ecomm-Front:build:development",
+              "proxyConfig": "src/proxy.config.js"
             }
           },
           "defaultConfiguration": "development"

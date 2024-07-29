@@ -36,6 +36,7 @@ IMapper mapper = mappingConfig.CreateMapper();
 builder.Services.AddSingleton(mapper);
 
 builder.Services.AddScoped<IPedidoService, PedidoService>();
+builder.Services.AddScoped<IClienteService, ClienteService>();
 builder.Services.AddScoped<IRabbitService, RabbitService>();
 
 var app = builder.Build();

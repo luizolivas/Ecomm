@@ -1,4 +1,6 @@
-﻿namespace EcommProject.Dtos
+﻿using EcommProject.Models;
+
+namespace EcommProject.Dtos
 {
     public class PedidoResponseDto
     {
@@ -7,6 +9,7 @@
         public int Quantidade { get; set; }
         public decimal Preco { get; set; }
         public int ClienteId { get; set; }
+        public Cliente? Cliente { get; set; }
         public bool Processado { get; set; }
     }
 }

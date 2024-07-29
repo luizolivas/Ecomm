@@ -8,5 +8,6 @@ public class MappingProfile : Profile
     {
         CreateMap<PedidoDto, Pedido>().ReverseMap();
         CreateMap<Pedido, PedidoResponseDto>();
+        CreateMap<Cliente,ClienteDTO>().ReverseMap();
     }
 }

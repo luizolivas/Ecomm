@@ -3,6 +3,7 @@ using EcommProject.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EcommProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240728230417_AddCliente")]
+    partial class AddCliente
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,6 +33,7 @@ namespace EcommProject.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -62,20 +66,7 @@ namespace EcommProject.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ClienteId");
-
                     b.ToTable("Pedidos");
-                });
-
-            modelBuilder.Entity("EcommProject.Models.Pedido", b =>
-                {
-                    b.HasOne("EcommProject.Models.Cliente", "Cliente")
-                        .WithMany()
-                        .HasForeignKey("ClienteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Cliente");
                 });
 #pragma warning restore 612, 618
         }

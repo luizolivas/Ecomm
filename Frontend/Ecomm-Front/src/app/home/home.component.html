@@ -1,0 +1,19 @@
+<div *ngIf="pedido">
+
+    <h2 class="title">LISTA DE PEDIDOS</h2>
+
+    <ul class="card-container">
+        <mat-card class="pedido-card" appearance="outlined" *ngFor="let item of pedido">
+            <p>ProdutoID: {{ item.produtoId }}</p>
+            <p>Quantidade: {{ item.quantidade }}</p>
+            <p>Preco: {{ item.preco }}</p>
+            <p>ClienteID: {{ item.produtoId }}</p>
+            <p>Status: {{ item.processado }}</p>
+        </mat-card>
+  </ul>
+
+  </div>
+  <div *ngIf="!pedido">
+    <p>Carregando detalhes do pedido...</p>
+  </div>
+  

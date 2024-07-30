@@ -18,7 +18,6 @@ export class PedidoDetailsComponent implements OnInit{
 
   ngOnInit(): void{
     this.getPedidoDetails();
-    console.log('AAAAAAAAAA ', this.pedido)
   }
 
   getPedidoDetails(): void {

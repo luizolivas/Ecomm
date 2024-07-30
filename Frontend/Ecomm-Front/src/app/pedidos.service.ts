@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class PedidosService {
   
-  private apiUrl = '/api/Pedido';
+  private apiUrl = '/api/pedidoresponse';
 
 
 

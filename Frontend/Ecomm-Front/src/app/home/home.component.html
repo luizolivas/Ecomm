@@ -7,8 +7,16 @@
             <p>ProdutoID: {{ item.produtoId }}</p>
             <p>Quantidade: {{ item.quantidade }}</p>
             <p>Preco: {{ item.preco }}</p>
-            <p>ClienteID: {{ item.produtoId }}</p>
-            <p>Status: {{ item.processado }}</p>
+            <p>Cliente: {{ item.cliente }}</p>
+            <p>
+              Status: 
+              <span [ngClass]="{
+                'pedido-processado': item.processado,
+                'pedido-nao-processado': !item.processado
+              }">
+                {{ item.processado ? 'Processado' : 'Não Processado' }}
+              </span>
+            </p>
         </mat-card>
   </ul>
 

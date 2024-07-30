@@ -23,30 +23,20 @@
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
 
-    /* p {
-        margin: 5px 0;
-        font-size: 15px;
-        line-height: 1.5;
-    }
-
-    .produtoId {
-        font-weight: bold;
-        color: #1976d2;
-    }
-
-    .quantidade {
-        color: #388e3c;
-    }
-
-    .preco {
-        color: #d32f2f;
-    }
-
-    .clienteId {
-        color: #fbc02d;
-    }
-
-    .status {
-        color: #7b1fa2;
-    } */
 }
+
+.pedido-processado {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 10px;
+    background-color: lightgreen;
+    color: green;
+  }
+  
+.pedido-nao-processado {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 10px;
+    background-color: lightcoral;
+    color: red;
+  }

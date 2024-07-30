@@ -9,7 +9,7 @@ namespace EcommProject.Dtos
         public int Quantidade { get; set; }
         public decimal Preco { get; set; }
         public int ClienteId { get; set; }
-        public Cliente? Cliente { get; set; }
+        public string? Cliente { get; set; }
         public bool Processado { get; set; }
     }
 }

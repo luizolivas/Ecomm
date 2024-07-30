@@ -9,6 +9,13 @@ import { HomeComponent } from './home/home.component';
   imports: [RouterOutlet, CommonModule, HomeComponent],
   template: `
     <main>
+      <header>
+        <nav>
+          <a routerLink="/">Home</a>
+          <a routerLink="/criar-pedido">Criar Pedido</a>
+          <a routerLink="/criar-cliente">Criar Cliente</a>
+        </nav>
+      </header>
       <section class="content">
         <app-home></app-home>
       </section>

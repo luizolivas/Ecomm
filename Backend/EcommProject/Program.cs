@@ -30,7 +30,7 @@ builder.Services.AddSwaggerGen();
 
 var mappingConfig = new MapperConfiguration(mc =>
 {
-    mc.AddProfile(new MappingProfile());
+    mc.AddProfile(new MappingProfile.MappingProfile());
 });
 IMapper mapper = mappingConfig.CreateMapper();
 builder.Services.AddSingleton(mapper);
@@ -54,4 +54,4 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.Run();
+app.RunAsync();

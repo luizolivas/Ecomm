@@ -20,6 +20,7 @@ namespace Ecomm.Tests.Services
         private ApplicationDbContext context;
         private IMapper mapper;
         private Mock<IRabbitService> mockRabbitService;
+        private Mock<IClienteService> clienteService;
 
         public PedidoServiceTest()
         {
@@ -37,8 +38,9 @@ namespace Ecomm.Tests.Services
 
             mapper = config.CreateMapper();
             mockRabbitService = new Mock<IRabbitService>();
+            clienteService = new Mock<IClienteService>();
 
-            pedidoService = new PedidoService(context, mapper, mockRabbitService.Object);
+            pedidoService = new PedidoService(context, mapper, mockRabbitService.Object, clienteService.Object);
         }
 
         [Fact]
@@ -51,7 +53,10 @@ namespace Ecomm.Tests.Services
 
             var pedidoResult = await context.Pedidos.FirstOrDefaultAsync();
             Assert.NotNull(pedidoResult);
-            Assert.Equal(2, 2);
+            Assert.Equal(pedido.ClienteId, pedidoResult.ClienteId);
+            Assert.Equal(pedido.Preco, pedidoResult.Preco);
+            Assert.Equal(pedido.ProdutoId, pedidoResult.ProdutoId);
+            Assert.Equal(pedido.Quantidade, pedidoResult.Quantidade);
 
             context.Database.EnsureDeleted();
         }

@@ -19,6 +19,11 @@ namespace EcommProject.Controllers
         [HttpPost]
         public async Task<ActionResult> AddCliente(ClienteDTO clienteDTO)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             try
             {
                 await _clienteService.AddCliente(clienteDTO);
@@ -26,7 +31,7 @@ namespace EcommProject.Controllers
             }
             catch (Exception ex)
             {
-                throw ex;
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
 

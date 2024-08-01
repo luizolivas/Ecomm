@@ -27,4 +27,4 @@ builder.Services.AddSingleton(factory);
 builder.Services.AddHttpClient();
 
 var host = builder.Build();
-host.Run();
+host.RunAsync();

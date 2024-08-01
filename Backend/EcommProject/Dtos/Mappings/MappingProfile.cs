@@ -2,12 +2,17 @@
 using EcommProject.Dtos;
 using EcommProject.Models;
 
-public class MappingProfile : Profile
+namespace MappingProfile
 {
-    public MappingProfile()
+    public class MappingProfile : Profile
     {
-        CreateMap<PedidoDto, Pedido>().ReverseMap();
-        CreateMap<Pedido, PedidoResponseDto>();
-        CreateMap<Cliente,ClienteDTO>().ReverseMap();
+        public MappingProfile()
+        {
+            CreateMap<PedidoDto, Pedido>().ReverseMap();
+            CreateMap<Pedido, PedidoResponseDto>();
+            CreateMap<Cliente, ClienteDTO>().ReverseMap();
+        }
     }
 }
+
+

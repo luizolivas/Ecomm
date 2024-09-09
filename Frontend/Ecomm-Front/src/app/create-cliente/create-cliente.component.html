@@ -1,1 +1,16 @@
-<p>create-cliente works!</p>
+<mat-card>
+    <mat-card-title>Cadastrar Cliente</mat-card-title>
+    <mat-card-content>
+      <form [formGroup]="clienteForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="fill">
+          <mat-label>Nome</mat-label>
+          <input matInput formControlName="nome" placeholder="Insira o nome do cliente" />
+        </mat-form-field>
+        
+        <button mat-raised-button color="primary" type="submit" [disabled]="!clienteForm.valid">
+          Cadastrar
+        </button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+  

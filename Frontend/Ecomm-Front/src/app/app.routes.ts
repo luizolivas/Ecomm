@@ -9,8 +9,8 @@ import { CreateClienteComponent } from './create-cliente/create-cliente.componen
 export const routes: Routes = [
     { path: '', component: HomeComponent},
     { path: 'pedido/:id', component: PedidoDetailsComponent},
-    { path: 'createpedido', component: CreatePedidoComponent},
-    { path: 'createcliente', component: CreateClienteComponent}
+    { path: 'criar-pedido', component: CreatePedidoComponent},
+    { path: 'criar-cliente', component: CreateClienteComponent}
 ];
 
 

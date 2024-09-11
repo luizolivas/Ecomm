@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ClienteService } from '../cliente.service';
-import { Cliente } from '../Models/Cliente';
+import { ClienteDTO } from '../Models/ClienteDTO';
 import { Router } from '@angular/router';
 
 @Component({
@@ -26,14 +26,14 @@ export class CreateClienteComponent {
 
   constructor(private fb: FormBuilder, private clienteService: ClienteService, private router: Router) {
     this.clienteForm = this.fb.group({
-      nome: ['', Validators.required], 
+      Name: ['', Validators.required], 
     });
   }
 
   onSubmit() {
     if (this.clienteForm.valid) {
-      console.log('Cliente cadastrado:', this.clienteForm.value);
-      const cliente: Cliente = this.clienteForm.value;
+      console.log('ClienteDTO cadastrado:', this.clienteForm.value);
+      const cliente: ClienteDTO = this.clienteForm.value;
 
       this.clienteService.CreateCliente(cliente).subscribe({
         next: (data) =>{

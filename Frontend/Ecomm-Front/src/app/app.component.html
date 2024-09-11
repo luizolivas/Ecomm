@@ -2,10 +2,19 @@
   <header>
     <nav>
       <a routerLink="/">Home</a>
-      <a routerLink="/criar-pedido" ariaCurrentWhenActive="page">Criar Pedido</a>
-      <a routerLink="/criar-cliente" ariaCurrentWhenActive="page">Criar Cliente</a>
+      <a routerLink="/criar-pedido" ariaCurrentWhenActive="page">Pedidos</a>
+      
+      <!-- Link Cadastrar Cliente com Dropdown -->
+      <div class="dropdown">
+        <a class="dropdown-toggle" ariaCurrentWhenActive="page">Clientes</a>
+        <div class="dropdown-menu">
+          <a routerLink="/criar-cliente">Cadastrar Cliente</a>
+          <a routerLink="/clientes-cadastrados">Clientes Cadastrados</a>
+        </div>
+      </div>
     </nav>
   </header>
+  
   <section class="content">
     <router-outlet></router-outlet>
   </section>

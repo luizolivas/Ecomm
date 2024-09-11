@@ -2,6 +2,7 @@
 using EcommProject.Context;
 using EcommProject.Dtos;
 using EcommProject.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace EcommProject.Services
@@ -17,6 +18,7 @@ namespace EcommProject.Services
             _mapper = mapper;
         }
 
+        [HttpPost]
         public async Task AddCliente(ClienteDTO clienteDTO)
         {
             Cliente cliente = new Cliente();

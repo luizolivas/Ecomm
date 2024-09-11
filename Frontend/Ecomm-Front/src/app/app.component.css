@@ -62,3 +62,37 @@ footer {
     font-size: 0.9em;
     box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1); /* Sombra sutil superior */
 }
+
+/* Estilo básico para o dropdown */
+.dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  /* Esconde o menu inicialmente */
+  .dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: #4a90e2;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+    min-width: 160px;
+    z-index: 1;
+    
+  }
+  
+  /* Links dentro do menu dropdown */
+  .dropdown-menu a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    color: #000;
+  }
+  
+  /* Mostra o menu quando o mouse passa sobre o dropdown */
+  .dropdown:hover .dropdown-menu {
+    display: block;
+  }
+  
+
+  

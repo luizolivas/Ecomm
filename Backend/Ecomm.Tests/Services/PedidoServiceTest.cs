@@ -70,11 +70,11 @@ namespace Ecomm.Tests.Services
                 new PedidoDto { ClienteId = 6, Preco=6 , ProdutoId = 6 , Quantidade= 6 }
             };
 
-            await context.Pedidos.AddRangeAsync();
+
 
             foreach(var pedido in pedidoDtos)
             {
-                context.Pedidos.Add(mapper.Map<Pedido>(pedido));
+                await pedidoService.AdicionaPedido(pedido);
             }
             await context.SaveChangesAsync();
 
@@ -94,6 +94,8 @@ namespace Ecomm.Tests.Services
 
             context.Database.EnsureDeleted();
         }
+
+        
 
     }
 }
